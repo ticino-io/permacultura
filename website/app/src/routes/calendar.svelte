@@ -1,0 +1,3 @@
+<div class="text-center">
+  <iframe src="https://calendar.google.com/calendar/embed?height=780&amp;wkst=2&amp;bgcolor=%23ffffff&amp;ctz=Europe%2FZurich&amp;src=Y185dnV2aTU3Zjd1cHJwMnExZ2w4YTY5NTBtMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;src=Y19xOHVmZzY5amI1MXJmdm4xdGdxYzFhaXU1NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;src=ZW4uY2gjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%238E24AA&amp;color=%23EF6C00&amp;color=%23A79B8E&amp;showTitle=1&amp;showPrint=0&amp;showTabs=1&amp;showTz=0&amp;showNav=1&amp;mode=MONTH&amp;title=Permacultura%20Svizzera%20Italiana" style="border-width:0" width="1024" height="780" frameborder="0" scrolling="no"></iframe>
+</div>
