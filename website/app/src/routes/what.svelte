@@ -1,15 +1,15 @@
 <script>
 	import { Figure } from 'sveltestrap';
 </script>
-
+<img src="/images/garden1.webp" class="w-100" alt="">
 <h2>Definizione</h2>
 <p>
-	Si tratta di un approccio alla progettazione basato sul collegamento di elementi e persone
-	attraverso varie discipline e strategie che lavorano in collaborazione con la natura.
+	La Permacultura è un approccio alla progettazione basato sul collegamento di elementi e persone
+	attraverso varie discipline e strategie che collaborano con la natura.
 </p>
 <p>
-	L'obiettivo è creare ecosistemi e insediamenti umani e agricoli ricchi di biodiversità,
-	stabilibili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo simile a come fanno
+	L'obiettivo che si pone è quello di creare ecosistemi e insediamenti umani e agricoli ricchi di biodiversità,
+	stabili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo simile a come fanno
 	gli ecosistemi naturali, quali ad esempio i boschi. Rendendoli quindi ecologicamente,
 	economicamente e socialmente sostenibili.
 </p>

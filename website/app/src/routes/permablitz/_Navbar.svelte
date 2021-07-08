@@ -54,7 +54,7 @@
 				<DropdownMenu>
 					<DropdownItem href="/permablitz/roles">I ruoli dei Permablitz</DropdownItem>
 					<DropdownItem divider />
-					<DropdownItem href="/permablitz/pdcs">Progettisti</DropdownItem>
+					<DropdownItem href="/permablitz/designers">Progettisti</DropdownItem>
 					<DropdownItem href="/permablitz/wwoofers">Collaboratori</DropdownItem>
 					<DropdownItem href="/permablitz/hosts">Host</DropdownItem>
 					<DropdownItem href="/permablitz/craftwomen">Artigiani</DropdownItem>

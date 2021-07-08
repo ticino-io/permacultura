@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { Styles } from 'sveltestrap';
-	import { Breadcrumb, BreadcrumbItem } from 'sveltestrap';
-	import { page } from '$app/stores';
 	import Navbar from './_Navbar.svelte';
 
 </script>

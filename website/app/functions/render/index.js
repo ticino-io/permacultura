@@ -1319,7 +1319,7 @@ async function render_response({
   status,
   error: error3,
   branch,
-  page: page2
+  page
 }) {
   const css2 = new Set(options2.entry.css);
   const js = new Set(options2.entry.js);
@@ -1352,7 +1352,7 @@ async function render_response({
         navigating: writable(null),
         session
       },
-      page: page2,
+      page,
       components: branch.map(({ node }) => node.module.default)
     };
     for (let i = 0; i < branch.length; i += 1) {
@@ -1394,7 +1394,7 @@ async function render_response({
 				session: ${try_serialize($session, (error4) => {
       throw new Error(`Failed to serialize session data: ${error4.message}`);
     })},
-				host: ${page2 && page2.host ? s$1(page2.host) : "location.host"},
+				host: ${page && page.host ? s$1(page.host) : "location.host"},
 				route: ${!!page_config.router},
 				spa: ${!page_config.ssr},
 				trailing_slash: ${s$1(options2.trailing_slash)},
@@ -1405,10 +1405,10 @@ async function render_response({
 						${branch.map(({ node }) => `import(${s$1(node.entry)})`).join(",\n						")}
 					],
 					page: {
-						host: ${page2.host ? s$1(page2.host) : "location.host"}, // TODO this is redundant
-						path: ${s$1(page2.path)},
-						query: new URLSearchParams(${s$1(page2.query.toString())}),
-						params: ${s$1(page2.params)}
+						host: ${page.host ? s$1(page.host) : "location.host"}, // TODO this is redundant
+						path: ${s$1(page.path)},
+						query: new URLSearchParams(${s$1(page.query.toString())}),
+						params: ${s$1(page.params)}
 					}
 				}` : "null"}
 			});
@@ -1526,7 +1526,7 @@ async function load_node({
   options: options2,
   state,
   route,
-  page: page2,
+  page,
   node,
   $session,
   context,
@@ -1541,7 +1541,7 @@ async function load_node({
   let loaded;
   if (module2.load) {
     const load_input = {
-      page: page2,
+      page,
       get session() {
         uses_credentials = true;
         return $session;
@@ -1589,7 +1589,7 @@ async function load_node({
                 }
               });
             } else {
-              response = await fetch(`http://${page2.host}/${asset.file}`, opts);
+              response = await fetch(`http://${page.host}/${asset.file}`, opts);
             }
           }
           if (!response) {
@@ -1722,7 +1722,7 @@ function escape(str) {
 async function respond_with_error({ request, options: options2, state, $session, status, error: error3 }) {
   const default_layout = await options2.load_component(options2.manifest.layout);
   const default_error = await options2.load_component(options2.manifest.error);
-  const page2 = {
+  const page = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -1733,7 +1733,7 @@ async function respond_with_error({ request, options: options2, state, $session,
     options: options2,
     state,
     route: null,
-    page: page2,
+    page,
     node: default_layout,
     $session,
     context: {},
@@ -1747,7 +1747,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       options: options2,
       state,
       route: null,
-      page: page2,
+      page,
       node: default_error,
       $session,
       context: loaded.context,
@@ -1769,7 +1769,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       status,
       error: error3,
       branch,
-      page: page2
+      page
     });
   } catch (error4) {
     options2.handle_error(error4);
@@ -1783,7 +1783,7 @@ async function respond_with_error({ request, options: options2, state, $session,
 async function respond$1({ request, options: options2, state, $session, route }) {
   const match = route.pattern.exec(request.path);
   const params = route.params(match);
-  const page2 = {
+  const page = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -1833,7 +1833,7 @@ async function respond$1({ request, options: options2, state, $session, route })
               options: options2,
               state,
               route,
-              page: page2,
+              page,
               node,
               $session,
               context,
@@ -1874,7 +1874,7 @@ async function respond$1({ request, options: options2, state, $session, route })
                     options: options2,
                     state,
                     route,
-                    page: page2,
+                    page,
                     node: error_node,
                     $session,
                     context: node_loaded.context,
@@ -1921,7 +1921,7 @@ async function respond$1({ request, options: options2, state, $session, route })
       status,
       error: error3,
       branch: branch && branch.filter(Boolean),
-      page: page2
+      page
     });
   } catch (error4) {
     options2.handle_error(error4);
@@ -2553,18 +2553,17 @@ function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
 }
 
 // .svelte-kit/output/server/app.js
-var css$3 = {
+var css$4 = {
   code: "#svelte-announcer.svelte-1j55zn5{position:absolute;left:0;top:0;clip:rect(0 0 0 0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;width:1px;height:1px}",
-  map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\texport let props_3 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}>\\n\\t\\t\\t\\t\\t{#if components[3]}\\n\\t\\t\\t\\t\\t\\t<svelte:component this={components[3]} {...(props_3 || {})}/>\\n\\t\\t\\t\\t\\t{/if}\\n\\t\\t\\t\\t</svelte:component>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>\\n\\t#svelte-announcer {\\n\\t\\tposition: absolute;\\n\\t\\tleft: 0;\\n\\t\\ttop: 0;\\n\\t\\tclip: rect(0 0 0 0);\\n\\t\\tclip-path: inset(50%);\\n\\t\\toverflow: hidden;\\n\\t\\twhite-space: nowrap;\\n\\t\\twidth: 1px;\\n\\t\\theight: 1px;\\n\\t}\\n</style>"],"names":[],"mappings":"AA2DC,iBAAiB,eAAC,CAAC,AAClB,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,CAAC,CACP,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CACnB,SAAS,CAAE,MAAM,GAAG,CAAC,CACrB,QAAQ,CAAE,MAAM,CAChB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,GAAG,AACZ,CAAC"}`
+  map: `{"version":3,"file":"root.svelte","sources":["root.svelte"],"sourcesContent":["<!-- This file is generated by @sveltejs/kit \u2014 do not edit it! -->\\n<script>\\n\\timport { setContext, afterUpdate, onMount } from 'svelte';\\n\\n\\t// stores\\n\\texport let stores;\\n\\texport let page;\\n\\n\\texport let components;\\n\\texport let props_0 = null;\\n\\texport let props_1 = null;\\n\\texport let props_2 = null;\\n\\n\\tsetContext('__svelte__', stores);\\n\\n\\t$: stores.page.set(page);\\n\\tafterUpdate(stores.page.notify);\\n\\n\\tlet mounted = false;\\n\\tlet navigated = false;\\n\\tlet title = null;\\n\\n\\tonMount(() => {\\n\\t\\tconst unsubscribe = stores.page.subscribe(() => {\\n\\t\\t\\tif (mounted) {\\n\\t\\t\\t\\tnavigated = true;\\n\\t\\t\\t\\ttitle = document.title || 'untitled page';\\n\\t\\t\\t}\\n\\t\\t});\\n\\n\\t\\tmounted = true;\\n\\t\\treturn unsubscribe;\\n\\t});\\n<\/script>\\n\\n<svelte:component this={components[0]} {...(props_0 || {})}>\\n\\t{#if components[1]}\\n\\t\\t<svelte:component this={components[1]} {...(props_1 || {})}>\\n\\t\\t\\t{#if components[2]}\\n\\t\\t\\t\\t<svelte:component this={components[2]} {...(props_2 || {})}/>\\n\\t\\t\\t{/if}\\n\\t\\t</svelte:component>\\n\\t{/if}\\n</svelte:component>\\n\\n{#if mounted}\\n\\t<div id=\\"svelte-announcer\\" aria-live=\\"assertive\\" aria-atomic=\\"true\\">\\n\\t\\t{#if navigated}\\n\\t\\t\\t{title}\\n\\t\\t{/if}\\n\\t</div>\\n{/if}\\n\\n<style>\\n\\t#svelte-announcer {\\n\\t\\tposition: absolute;\\n\\t\\tleft: 0;\\n\\t\\ttop: 0;\\n\\t\\tclip: rect(0 0 0 0);\\n\\t\\tclip-path: inset(50%);\\n\\t\\toverflow: hidden;\\n\\t\\twhite-space: nowrap;\\n\\t\\twidth: 1px;\\n\\t\\theight: 1px;\\n\\t}\\n</style>"],"names":[],"mappings":"AAsDC,iBAAiB,eAAC,CAAC,AAClB,QAAQ,CAAE,QAAQ,CAClB,IAAI,CAAE,CAAC,CACP,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,KAAK,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CAAC,CACnB,SAAS,CAAE,MAAM,GAAG,CAAC,CACrB,QAAQ,CAAE,MAAM,CAChB,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,GAAG,AACZ,CAAC"}`
 };
 var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { stores } = $$props;
-  let { page: page2 } = $$props;
+  let { page } = $$props;
   let { components } = $$props;
   let { props_0 = null } = $$props;
   let { props_1 = null } = $$props;
   let { props_2 = null } = $$props;
-  let { props_3 = null } = $$props;
   setContext("__svelte__", stores);
   afterUpdate(stores.page.notify);
   let mounted = false;
@@ -2582,8 +2581,8 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   });
   if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
     $$bindings.stores(stores);
-  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
-    $$bindings.page(page2);
+  if ($$props.page === void 0 && $$bindings.page && page !== void 0)
+    $$bindings.page(page);
   if ($$props.components === void 0 && $$bindings.components && components !== void 0)
     $$bindings.components(components);
   if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
@@ -2592,20 +2591,16 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_1(props_1);
   if ($$props.props_2 === void 0 && $$bindings.props_2 && props_2 !== void 0)
     $$bindings.props_2(props_2);
-  if ($$props.props_3 === void 0 && $$bindings.props_3 && props_3 !== void 0)
-    $$bindings.props_3(props_3);
-  $$result.css.add(css$3);
+  $$result.css.add(css$4);
   {
-    stores.page.set(page2);
+    stores.page.set(page);
   }
   return `
 
 
 ${validate_component(components[0] || missing_component, "svelte:component").$$render($$result, Object.assign(props_0 || {}), {}, {
     default: () => `${components[1] ? `${validate_component(components[1] || missing_component, "svelte:component").$$render($$result, Object.assign(props_1 || {}), {}, {
-      default: () => `${components[2] ? `${validate_component(components[2] || missing_component, "svelte:component").$$render($$result, Object.assign(props_2 || {}), {}, {
-        default: () => `${components[3] ? `${validate_component(components[3] || missing_component, "svelte:component").$$render($$result, Object.assign(props_3 || {}), {}, {})}` : ``}`
-      })}` : ``}`
+      default: () => `${components[2] ? `${validate_component(components[2] || missing_component, "svelte:component").$$render($$result, Object.assign(props_2 || {}), {}, {})}` : ``}`
     })}` : ``}`
   })}
 
@@ -2619,7 +2614,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module"
 });
-var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="/favicon.png" />\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\n		' + head + '\n	</head>\n	<body>\n		<div id="svelte">' + body + "</div>\n	</body>\n</html>\n";
+var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n\n<head>\n	<meta charset="utf-8" />\n	<link rel="icon" href="/favicon.png" />\n	<meta name="viewport" content="width=device-width, initial-scale=1" />\n	' + head + '\n</head>\n\n<body class="d-flex flex-column h-100">\n	<div id="svelte">' + body + "</div>\n</body>\n\n</html>\n";
 var options = null;
 var default_settings = { paths: { "base": "", "assets": "/." } };
 function init(settings = default_settings) {
@@ -2629,9 +2624,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: "/./_app/start-43b86f10.js",
+      file: "/./_app/start-899ef8de.js",
       css: ["/./_app/assets/start-a8cd1609.css", "/./_app/assets/vendor-28c0263c.css"],
-      js: ["/./_app/start-43b86f10.js", "/./_app/chunks/vendor-33ee9987.js"]
+      js: ["/./_app/start-899ef8de.js", "/./_app/chunks/vendor-1b4ca461.js"]
     },
     fetched: void 0,
     floc: false,
@@ -2659,7 +2654,7 @@ function init(settings = default_settings) {
 }
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "favicon.png", "size": 3404, "type": "image/png" }, { "file": "images/pexels-bence-kondor-2259917.jpg", "size": 4274589, "type": "image/jpeg" }, { "file": "images/pexels-mike-145685.jpg", "size": 4919359, "type": "image/jpeg" }, { "file": "images/pexels-quang-nguyen-vinh-2132250.jpg", "size": 3872693, "type": "image/jpeg" }],
+  assets: [{ "file": "favicon.png", "size": 3404, "type": "image/png" }, { "file": "images/pexels-bence-kondor-2259917.jpg", "size": 4274589, "type": "image/jpeg" }, { "file": "images/pexels-mike-145685.jpg", "size": 4919359, "type": "image/jpeg" }, { "file": "images/pexels-quang-nguyen-vinh-2132250.jpg", "size": 3872693, "type": "image/jpeg" }, { "file": "images/principles.webp", "size": 40448, "type": "image/webp" }, { "file": "images/values.webp", "size": 11118, "type": "image/webp" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -2674,29 +2669,36 @@ var manifest = {
       type: "page",
       pattern: /^\/permablitz\/?$/,
       params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/permablitz/__layout.svelte", "src/routes/permablitz/index.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      a: ["src/routes/permablitz/__layout.reset.svelte", "src/routes/permablitz/index.svelte"],
+      b: []
     },
     {
       type: "page",
       pattern: /^\/permablitz\/calendar\/?$/,
       params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/permablitz/__layout.svelte", "src/routes/permablitz/calendar.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      a: ["src/routes/permablitz/__layout.reset.svelte", "src/routes/permablitz/calendar.svelte"],
+      b: []
     },
     {
       type: "page",
       pattern: /^\/permablitz\/projects\/?$/,
       params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/permablitz/__layout.svelte", "src/routes/permablitz/projects.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      a: ["src/routes/permablitz/__layout.reset.svelte", "src/routes/permablitz/projects.svelte"],
+      b: []
     },
     {
       type: "page",
       pattern: /^\/permablitz\/values\/?$/,
       params: empty,
-      a: ["src/routes/__layout.svelte", "src/routes/permablitz/__layout.svelte", "src/routes/permablitz/values.svelte"],
-      b: [".svelte-kit/build/components/error.svelte"]
+      a: ["src/routes/permablitz/__layout.reset.svelte", "src/routes/permablitz/values.svelte"],
+      b: []
+    },
+    {
+      type: "page",
+      pattern: /^\/permablitz\/host\/?$/,
+      params: empty,
+      a: ["src/routes/permablitz/__layout.reset.svelte", "src/routes/permablitz/host.svelte"],
+      b: []
     },
     {
       type: "page",
@@ -2718,6 +2720,13 @@ var manifest = {
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/values.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/what\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/what.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
     }
   ]
 };
@@ -2728,7 +2737,7 @@ var get_hooks = (hooks) => ({
 });
 var module_lookup = {
   "src/routes/__layout.svelte": () => Promise.resolve().then(function() {
-    return __layout$1;
+    return __layout;
   }),
   ".svelte-kit/build/components/error.svelte": () => Promise.resolve().then(function() {
     return error2;
@@ -2736,8 +2745,8 @@ var module_lookup = {
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
     return index$1;
   }),
-  "src/routes/permablitz/__layout.svelte": () => Promise.resolve().then(function() {
-    return __layout;
+  "src/routes/permablitz/__layout.reset.svelte": () => Promise.resolve().then(function() {
+    return __layout_reset;
   }),
   "src/routes/permablitz/index.svelte": () => Promise.resolve().then(function() {
     return index;
@@ -2751,6 +2760,9 @@ var module_lookup = {
   "src/routes/permablitz/values.svelte": () => Promise.resolve().then(function() {
     return values$1;
   }),
+  "src/routes/permablitz/host.svelte": () => Promise.resolve().then(function() {
+    return host;
+  }),
   "src/routes/calendar.svelte": () => Promise.resolve().then(function() {
     return calendar;
   }),
@@ -2759,9 +2771,12 @@ var module_lookup = {
   }),
   "src/routes/values.svelte": () => Promise.resolve().then(function() {
     return values;
+  }),
+  "src/routes/what.svelte": () => Promise.resolve().then(function() {
+    return what;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "/./_app/pages/__layout.svelte-450bffb5.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/__layout.svelte-450bffb5.js", "/./_app/chunks/vendor-33ee9987.js", "/./_app/chunks/stores-514ab653.js"], "styles": null }, ".svelte-kit/build/components/error.svelte": { "entry": "/./_app/error.svelte-88acbb44.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/error.svelte-88acbb44.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/index.svelte": { "entry": "/./_app/pages/index.svelte-9085a1e2.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/index.svelte-9085a1e2.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/permablitz/__layout.svelte": { "entry": "/./_app/pages/permablitz/__layout.svelte-10163c8c.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/__layout.svelte-10163c8c.js", "/./_app/chunks/vendor-33ee9987.js", "/./_app/chunks/stores-514ab653.js"], "styles": null }, "src/routes/permablitz/index.svelte": { "entry": "/./_app/pages/permablitz/index.svelte-61b9c68d.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/index.svelte-61b9c68d.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/permablitz/calendar.svelte": { "entry": "/./_app/pages/permablitz/calendar.svelte-0bedf851.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/calendar.svelte-0bedf851.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/permablitz/projects.svelte": { "entry": "/./_app/pages/permablitz/projects.svelte-f74e8419.js", "css": ["/./_app/assets/pages/permablitz/projects.svelte-adb63117.css", "/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/projects.svelte-f74e8419.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/permablitz/values.svelte": { "entry": "/./_app/pages/permablitz/values.svelte-2656db2a.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/values.svelte-2656db2a.js", "/./_app/chunks/vendor-33ee9987.js", "/./_app/chunks/_values-8206b1b7.js"], "styles": null }, "src/routes/calendar.svelte": { "entry": "/./_app/pages/calendar.svelte-1a222fb9.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/calendar.svelte-1a222fb9.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/projects.svelte": { "entry": "/./_app/pages/projects.svelte-246c0698.js", "css": ["/./_app/assets/pages/permablitz/projects.svelte-adb63117.css", "/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/projects.svelte-246c0698.js", "/./_app/chunks/vendor-33ee9987.js"], "styles": null }, "src/routes/values.svelte": { "entry": "/./_app/pages/values.svelte-59d4a65d.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/values.svelte-59d4a65d.js", "/./_app/chunks/vendor-33ee9987.js", "/./_app/chunks/_values-8206b1b7.js"], "styles": null } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "/./_app/pages/__layout.svelte-2a8cbb9f.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/__layout.svelte-2a8cbb9f.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, ".svelte-kit/build/components/error.svelte": { "entry": "/./_app/error.svelte-c4e5149c.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/error.svelte-c4e5149c.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/index.svelte": { "entry": "/./_app/pages/index.svelte-c7e436e7.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/index.svelte-c7e436e7.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/permablitz/__layout.reset.svelte": { "entry": "/./_app/pages/permablitz/__layout.reset.svelte-b036a574.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/__layout.reset.svelte-b036a574.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/permablitz/index.svelte": { "entry": "/./_app/pages/permablitz/index.svelte-9db79036.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/index.svelte-9db79036.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/permablitz/calendar.svelte": { "entry": "/./_app/pages/permablitz/calendar.svelte-32d2812c.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/calendar.svelte-32d2812c.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/permablitz/projects.svelte": { "entry": "/./_app/pages/permablitz/projects.svelte-fb8a1e99.js", "css": ["/./_app/assets/pages/permablitz/projects.svelte-adb63117.css", "/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/projects.svelte-fb8a1e99.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/permablitz/values.svelte": { "entry": "/./_app/pages/permablitz/values.svelte-1bfcb804.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/values.svelte-1bfcb804.js", "/./_app/chunks/vendor-1b4ca461.js", "/./_app/chunks/_values-b9bac1db.js"], "styles": null }, "src/routes/permablitz/host.svelte": { "entry": "/./_app/pages/permablitz/host.svelte-293df7a1.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/permablitz/host.svelte-293df7a1.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/calendar.svelte": { "entry": "/./_app/pages/calendar.svelte-f856bd01.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/calendar.svelte-f856bd01.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/projects.svelte": { "entry": "/./_app/pages/projects.svelte-4c909b56.js", "css": ["/./_app/assets/pages/permablitz/projects.svelte-adb63117.css", "/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/projects.svelte-4c909b56.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null }, "src/routes/values.svelte": { "entry": "/./_app/pages/values.svelte-95abebfe.js", "css": ["/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/values.svelte-95abebfe.js", "/./_app/chunks/vendor-1b4ca461.js", "/./_app/chunks/_values-b9bac1db.js"], "styles": null }, "src/routes/what.svelte": { "entry": "/./_app/pages/what.svelte-737695a2.js", "css": ["/./_app/assets/pages/what.svelte-f147fa36.css", "/./_app/assets/vendor-28c0263c.css"], "js": ["/./_app/pages/what.svelte-737695a2.js", "/./_app/chunks/vendor-1b4ca461.js"], "styles": null } };
 async function load_component(file) {
   return {
     module: await module_lookup[file](),
@@ -2771,8 +2786,8 @@ async function load_component(file) {
 function render(request, {
   prerender
 } = {}) {
-  const host = request.headers["host"];
-  return respond({ ...request, host }, options, { prerender });
+  const host2 = request.headers["host"];
+  return respond({ ...request, host: host2 }, options, { prerender });
 }
 function getOriginalBodyPadding() {
   const style = window ? window.getComputedStyle(document.body, null) : {};
@@ -3125,7 +3140,7 @@ create_ssr_component(($$result, $$props, $$bindings, slots) => {
     { class: escape_attribute_value(classes) }
   ])}>${children ? `${escape2(children)}` : `${slots.default ? slots.default({}) : ``}`}</a>` : `<span${spread([escape_object($$restProps), { class: escape_attribute_value(classes) }])}>${children ? `${escape2(children)}` : `${slots.default ? slots.default({}) : ``}`}</span>`}`;
 });
-var Breadcrumb = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let listClasses;
   let $$restProps = compute_rest_props($$props, ["class", "children", "listClassName"]);
   let { class: className2 = "" } = $$props;
@@ -3140,7 +3155,7 @@ var Breadcrumb = create_ssr_component(($$result, $$props, $$bindings, slots) => 
   listClasses = classnames("breadcrumb", listClassName);
   return `<nav${spread([escape_object($$restProps), { class: escape_attribute_value(className2) }])}><ol${add_attribute("class", listClasses, 0)}>${children ? `${escape2(children)}` : `${slots.default ? slots.default({}) : ``}`}</ol></nav>`;
 });
-var BreadcrumbItem = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let classes;
   let $$restProps = compute_rest_props($$props, ["class", "active", "children"]);
   let { class: className2 = "" } = $$props;
@@ -5367,7 +5382,7 @@ create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.toggler(toggler);
   return `${isOpen ? `<div${spread([escape_object($$restProps), { class: escape_attribute_value(className2) }])}>${slots.default ? slots.default({}) : ``}</div>` : ``}`;
 });
-create_ssr_component(($$result, $$props, $$bindings, slots) => {
+var Figure = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let classes;
   let $$restProps = compute_rest_props($$props, ["class", "alt", "caption"]);
   let $$slots = compute_slots(slots);
@@ -6599,7 +6614,7 @@ var OffcanvasHeader = create_ssr_component(($$result, $$props, $$bindings, slots
     ${typeof toggle2 === "function" ? `<button${add_attribute("aria-label", closeAriaLabel, 0)} class="${"btn-close"}" type="${"button"}"></button>` : ``}
   `}</div>`;
 });
-var css$2 = {
+var css$3 = {
   code: ".overflow-noscroll{overflow:hidden;padding-right:0px}",
   map: `{"version":3,"file":"Offcanvas.svelte","sources":["Offcanvas.svelte"],"sourcesContent":["<script>\\n  import { createEventDispatcher, onMount } from 'svelte';\\n  import { fade as fadeTransition } from 'svelte/transition';\\n  import InlineContainer from './InlineContainer.svelte';\\n  import OffcanvasBody from './OffcanvasBody.svelte';\\n  import OffcanvasHeader from './OffcanvasHeader.svelte';\\n  import Portal from './Portal.svelte';\\n  import classnames, { browserEvent, getTransitionDuration } from './utils';\\n\\n  const dispatch = createEventDispatcher();\\n\\n  let className = '';\\n  export { className as class };\\n  export let backdrop = true;\\n  export let container;\\n  export let fade = true;\\n  export let backdropDuration = fade ? 150 : 0;\\n  export let header = undefined;\\n  export let isOpen = false;\\n  export let placement = 'start';\\n  export let scroll = false;\\n  export let toggle = undefined;\\n\\n  // TODO support these like Modals:\\n  // export let autoFocus = true;\\n  // export let unmountOnClose = true;\\n  // TODO focus trap\\n\\n  let body;\\n  let isTransitioning = false;\\n  let element;\\n  let removeEscListener;\\n\\n  onMount(() => body = document.body);\\n\\n  $: if (body) {\\n    if (!scroll) {\\n      body.classList.toggle('overflow-noscroll', (isOpen || isTransitioning));\\n    }\\n  }\\n  $: if (element) {\\n    isOpen = isOpen; // Used to trigger reactive on isOpen changes.\\n    isTransitioning = true;\\n    dispatch(isOpen ? 'opening' : 'closing');\\n    setTimeout(() => {\\n      isTransitioning = false;\\n      dispatch(isOpen ? 'open' : 'close');\\n    }, getTransitionDuration(element));\\n  }\\n  $: if (isOpen && toggle && (typeof window !== 'undefined')) {\\n    removeEscListener = browserEvent(document, 'keydown', (event) => {\\n      if (event.key && event.key === 'Escape') toggle();\\n    });\\n  }\\n  $: if (!isOpen && removeEscListener) {\\n    removeEscListener();\\n  }\\n  $: handleMouseDown = (backdrop && toggle && body && isOpen) ? (e) => {\\n    if (e.target === body) {\\n      toggle();\\n    }\\n  } : undefined;\\n  $: classes = classnames('offcanvas', \`offcanvas-\${placement}\`, className, { show: isOpen });\\n  $: outer = (container === 'inline') ? InlineContainer : Portal;\\n<\/script>\\n\\n<style>\\n  :global(.overflow-noscroll) {\\n    overflow: hidden;\\n    padding-right: 0px;\\n  }\\n</style>\\n\\n<svelte:body on:mousedown={handleMouseDown} />\\n\\n<svelte:component this={outer}>\\n<div\\n  {...$$restProps}\\n  bind:this={element}\\n  aria-hidden={!isOpen ? true : undefined}\\n  aria-modal={isOpen ? true : undefined}\\n  class={classes}\\n  role={(isOpen || isTransitioning) ? 'dialog' : undefined}\\n  style={\`visibility: \${isOpen || isTransitioning ? 'visible' : 'hidden'}\`}\\n  tabindex=\\"-1\\">\\n  {#if toggle || header || $$slots.header}\\n    <OffcanvasHeader {toggle}>\\n      {#if header}\\n        <h5 class=\\"offcanvas-title\\">\\n          {header}\\n        </h5>\\n      {/if}\\n      <slot name=\\"header\\" />\\n    </OffcanvasHeader>\\n  {/if}\\n  <OffcanvasBody>\\n    <slot />\\n  </OffcanvasBody>\\n</div>\\n{#if backdrop && isOpen}\\n  <div\\n    on:click={toggle ? () => toggle() : undefined}\\n    transition:fadeTransition={{ duration: backdropDuration }}\\n    class={classnames('modal-backdrop', 'show')} />\\n{/if}\\n</svelte:component>\\n"],"names":[],"mappings":"AAmEU,kBAAkB,AAAE,CAAC,AAC3B,QAAQ,CAAE,MAAM,CAChB,aAAa,CAAE,GAAG,AACpB,CAAC"}`
 };
@@ -6655,7 +6670,7 @@ create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.scroll(scroll);
   if ($$props.toggle === void 0 && $$bindings.toggle && toggle2 !== void 0)
     $$bindings.toggle(toggle2);
-  $$result.css.add(css$2);
+  $$result.css.add(css$3);
   {
     if (body) {
       if (!scroll) {
@@ -7431,39 +7446,13 @@ create_ssr_component(($$result, $$props, $$bindings, slots) => {
     <div class="${"tooltip-inner"}">${children ? `${escape2(children)}` : `${slots.default ? slots.default({}) : ``}`}</div></div>`
   })}` : ``}`;
 });
-var getStores = () => {
-  const stores = getContext("__svelte__");
-  return {
-    page: {
-      subscribe: stores.page.subscribe
-    },
-    navigating: {
-      subscribe: stores.navigating.subscribe
-    },
-    get preloading() {
-      console.error("stores.preloading is deprecated; use stores.navigating instead");
-      return {
-        subscribe: stores.navigating.subscribe
-      };
-    },
-    session: stores.session
-  };
-};
-var page = {
-  subscribe(fn2) {
-    const store = getStores().page;
-    return store.subscribe(fn2);
-  }
-};
-var Navbar_1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $page, $$unsubscribe_page;
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+var Navbar_1$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isOpen = false;
-  $$unsubscribe_page();
   return `${validate_component(Navbar, "Navbar").$$render($$result, {
     color: "light",
     light: true,
-    expand: "md"
+    expand: "md",
+    class: "border-bottom"
   }, {}, {
     default: () => `${validate_component(NavbarBrand, "NavbarBrand").$$render($$result, { href: "/" }, {}, {
       default: () => `Permacultura <br><spam class="${"text-muted"}">Svizzera Italiana</spam>`
@@ -7472,83 +7461,64 @@ var Navbar_1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
 	${validate_component(Collapse, "Collapse").$$render($$result, { isOpen, navbar: true, expand: "md" }, {}, {
       default: () => `${validate_component(Nav, "Nav").$$render($$result, { class: "ms-auto", navbar: true }, {}, {
-        default: () => `${$page.path.startsWith("/permablitz") ? `${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/calendar" }, {}, { default: () => `Come funziona` })}`
-        })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/calendar" }, {}, { default: () => `I nostri eventi` })}`
-        })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, {
-            href: "/permablitz/projects",
-            active: true
-          }, {}, { default: () => `Progetti` })}`
-        })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/values" }, {}, { default: () => `Valori` })}`
-        })}
-				${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
-          default: () => `${validate_component(DropdownToggle, "DropdownToggle").$$render($$result, { nav: true, caret: true }, {}, { default: () => `Persone` })}
-					${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
-            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `I ruoli dei Permablitz` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `Progettisti` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Collaboratori` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Host` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Artigiani` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Negozi e Fornitori` })}`
+        default: () => `${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/what" }, {}, {
+            default: () => `Cos&#39;\xE8<br>la Permacultura`
           })}`
         })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/tools", active: true }, {}, { default: () => `Gli Attrezzi` })}`
-        })}` : `${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/what" }, {}, { default: () => `Cos&#39;\xE8` })}`
-        })}
-        ${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/values" }, {}, { default: () => `Valori` })}`
-        })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
           default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/calendar" }, {}, { default: () => `Calendario` })}`
         })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz", active: true }, {}, { default: () => `Permablitz` })}`
-        })}
-        ${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/values" }, {}, { default: () => `Bacheca` })}`
-        })}
-				${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
+			${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
           default: () => `${validate_component(DropdownToggle, "DropdownToggle").$$render($$result, { nav: true, caret: true }, {}, { default: () => `Chi siamo` })}
-					${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
-            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Il Gruppo` })}
-            ${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `I volontari` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "values" }, {}, { default: () => `Obiettivi` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "hosts" }, {}, { default: () => `Dicono di noi` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "hosts" }, {}, { default: () => `Ringraziamenti` })}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
-						${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `Entra` })}`
+				${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
+            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/people" }, {}, { default: () => `I volontari` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/goals" }, {}, { default: () => `Obiettivi` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/whattheysay" }, {}, { default: () => `Dicono di noi` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/thankyou" }, {}, { default: () => `Ringraziamenti` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `Entra` })}`
           })}`
         })}
-				${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
-          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "who" }, {}, { default: () => `Login` })}`
-        })}`}`
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, {
+            target: "_blank",
+            href: "http://scuolapermacultura.ch"
+          }, {}, { default: () => `Scuola` })}`
+        })}
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz" }, {}, { default: () => `Permablitz` })}`
+        })}
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/board" }, {}, { default: () => `Bacheca` })}`
+        })}
+			${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
+          default: () => `${validate_component(DropdownToggle, "DropdownToggle").$$render($$result, { nav: true, caret: true }, {}, { default: () => `Profilo` })}
+				${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
+            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `schermo intero` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `Esci` })}`
+          })}`
+        })}`
       })}`
     })}`
   })}`;
 });
-var _layout$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}
 
 ${$$result.head += `${$$result.title = `<title>Permacultura Svizzera Italiana</title>`, ""}`, ""}
 
-${validate_component(Navbar_1, "Navbar").$$render($$result, {}, {}, {})}
-<div class="${"m-3"}">${slots.default ? slots.default({}) : ``}</div>
+<header class="${"sticky-md-top pe-5"}">${validate_component(Navbar_1$1, "Navbar").$$render($$result, {}, {}, {})}</header>
 
-`;
+<main class="${" fixed-center container p-5"}">${slots.default ? slots.default({}) : ``}</main>
+
+<footer class="${"footer mt-auto fixed-bottom py-3 bg-light"}"><div class="${"container"}"><span class="${"text-muted"}"><i>Copyleft \u2014 Permacultura Svizzera Italiana \u2014 all rights reversed.</i></span></div></footer>`;
 });
-var __layout$1 = /* @__PURE__ */ Object.freeze({
+var __layout = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _layout$1
+  "default": _layout
 });
 function load({ error: error22, status }) {
   return { props: { error: error22, status } };
@@ -7574,7 +7544,7 @@ var error2 = /* @__PURE__ */ Object.freeze({
   load
 });
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  return `<h1>Sito della Permacultura Svizzera Italiana</h1>
+  return `<h1>Permacultura Svizzera Italiana</h1>
 <p>Visita xxx</p>`;
 });
 var index$1 = /* @__PURE__ */ Object.freeze({
@@ -7582,41 +7552,75 @@ var index$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Routes
 });
-function xxx(words) {
-  const links = [];
-  let previous = "/";
-  words.slice(1).forEach((word) => {
-    links.push({
-      label: word.charAt(0).toUpperCase() + word.slice(1),
-      link: previous + word
-    });
-    previous = previous + word + "/";
-  });
-  return links;
-}
-var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let crumbs;
-  let $page, $$unsubscribe_page;
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
-  crumbs = xxx($page.path.split("/"));
-  $$unsubscribe_page();
+var Navbar_1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let isOpen = false;
+  return `${validate_component(Navbar, "Navbar").$$render($$result, {
+    color: "light",
+    light: true,
+    expand: "md",
+    class: "border-bottom"
+  }, {}, {
+    default: () => `${validate_component(NavbarBrand, "NavbarBrand").$$render($$result, { href: "/" }, {}, {
+      default: () => `Permacultura <br><spam class="${"text-muted"}">Svizzera Italiana</spam>`
+    })}
+	${validate_component(NavbarBrand, "NavbarBrand").$$render($$result, { href: "/permablitz" }, {}, {
+      default: () => `Permablitz
+	`
+    })}
+	${validate_component(NavbarToggler, "NavbarToggler").$$render($$result, {}, {}, {})}
+
+	${validate_component(Collapse, "Collapse").$$render($$result, { isOpen, navbar: true, expand: "md" }, {}, {
+      default: () => `${validate_component(Nav, "Nav").$$render($$result, { class: "ms-auto", navbar: true }, {}, {
+        default: () => `${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/how" }, {}, { default: () => `Come funziona` })}`
+        })}
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/calendar" }, {}, { default: () => `I nostri eventi` })}`
+        })}
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/projects" }, {}, { default: () => `Esempi` })}`
+        })}
+			${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
+          default: () => `${validate_component(DropdownToggle, "DropdownToggle").$$render($$result, { nav: true, caret: true }, {}, { default: () => `Persone` })}
+				${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
+            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/roles" }, {}, { default: () => `I ruoli dei Permablitz` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/pdcs" }, {}, { default: () => `Progettisti` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/wwoofers" }, {}, { default: () => `Collaboratori` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/hosts" }, {}, { default: () => `Host` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/craftwomen" }, {}, { default: () => `Artigiani` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { href: "/permablitz/shops" }, {}, { default: () => `Negozi e Fornitori` })}`
+          })}`
+        })}
+			${validate_component(NavItem, "NavItem").$$render($$result, {}, {}, {
+          default: () => `${validate_component(NavLink, "NavLink").$$render($$result, { href: "/permablitz/tools", active: true }, {}, { default: () => `Gli Attrezzi` })}`
+        })}
+			${validate_component(Dropdown, "Dropdown").$$render($$result, { nav: true, inNavbar: true }, {}, {
+          default: () => `${validate_component(DropdownToggle, "DropdownToggle").$$render($$result, { nav: true, caret: true }, {}, { default: () => `Profilo` })}
+				${validate_component(DropdownMenu, "DropdownMenu").$$render($$result, {}, {}, {
+            default: () => `${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `schermo intero` })}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, { divider: true }, {}, {})}
+					${validate_component(DropdownItem, "DropdownItem").$$render($$result, {}, {}, { default: () => `Esci` })}`
+          })}`
+        })}`
+      })}`
+    })}`
+  })}`;
+});
+var _layout_reset = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `${validate_component(Styles, "Styles").$$render($$result, {}, {}, {})}
 
-${$$result.head += `${$$result.title = `<title>Permacultura Svizzera Italiana</title>`, ""}`, ""}
+${$$result.head += `${$$result.title = `<title>Permablitz per Permacultura Svizzera Italiana</title>`, ""}`, ""}
+<header class="${"sticky-md-top pe-5"}">${validate_component(Navbar_1, "Navbar").$$render($$result, {}, {}, {})}</header>
 
-<div class="${"m-2"}"><div class="${""}">${validate_component(Breadcrumb, "Breadcrumb").$$render($$result, { class: "d-flex justify-content-start" }, {}, {
-    default: () => `${each(crumbs, (item, index2) => `${index2 == crumbs.length - 1 ? `${validate_component(BreadcrumbItem, "BreadcrumbItem").$$render($$result, {}, {}, { default: () => `${escape2(item.label)}` })}` : `${validate_component(BreadcrumbItem, "BreadcrumbItem").$$render($$result, {}, {}, {
-      default: () => `<a${add_attribute("href", item.link, 0)}>/${escape2(item.label)}</a>`
-    })}`}`)}`
-  })}
-		<h1>Permablitz</h1></div>
-	<hr>
-	${slots.default ? slots.default({}) : ``}</div>`;
+<main class="${" fixed-center container p-5"}">${slots.default ? slots.default({}) : ``}</main>
+
+<footer class="${"footer mt-auto fixed-bottom py-3 bg-light"}"><div class="${"container"}"><span class="${"text-muted"}"><i>Copyleft \u2014 Permacultura Svizzera Italiana \u2014 all rights reversed.</i></span></div></footer>`;
 });
-var __layout = /* @__PURE__ */ Object.freeze({
+var __layout_reset = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  "default": _layout
+  "default": _layout_reset
 });
 var Permablitz = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<p>Siamo nei Permablitz</p>`;
@@ -7634,13 +7638,20 @@ var calendar$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Calendar$1
 });
-var css$1 = {
+var css$2 = {
   code: ".bg.svelte-5bcepa{position:fixed;top:0;left:0;min-width:100%;min-height:100%}@media screen and (max-width: 1024px){img.bg.svelte-5bcepa{left:50%;margin-left:-512px}}",
-  map: `{"version":3,"file":"projects.svelte","sources":["projects.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { Carousel, CarouselControl, CarouselIndicators, CarouselItem, CarouselCaption, Modal, ModalBody, ModalFooter, ModalHeader, Button, Icon } from 'sveltestrap';\\nlet isOpen = false;\\nconst toggle = () => (isOpen = !isOpen);\\nconst items = [\\n    {\\n        url: '/images/pexels-quang-nguyen-vinh-2132250.jpg',\\n        title: 'Paesaggio inesplorato lungo la Via del Ferro',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Gi\xE0 candidato, oscar mancato per poco, Giulia decide di intraprendere un percorso eco-sostenibile per aiutare i propri compaesani e gli anziani del paese.'\\n    },\\n    {\\n        url: '/images/pexels-mike-145685.jpg',\\n        title: 'Lo stagno riporta le rane nel deserto',\\n        founder: 'Scoproche Godo, dal 2011 sul Pian Magadino',\\n        subTitle: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos beatae eligendi ut reiciendis ab voluptas saepe eos quo! Illum, accusantium iste unde optio culpa cum tempore perferendis, perspiciatis ad soluta aspernatur dolorem delectus officiis corrupti velit tenetur excepturi. Perferendis exercitationem dicta tenetur tempora? Odio iure ut earum, voluptas illum suscipit.'\\n    },\\n    {\\n        url: '/images/pexels-bence-kondor-2259917.jpg',\\n        title: 'Casa degli hobbit',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Un luogo creato nel 1976 da Barbara Fenice ad Olivone'\\n    }\\n];\\nlet activeIndex = 0;\\n<\/script>\\n\\n{#if !isOpen}\\n\\t<div class=\\"m-3\\">\\n\\t\\t{#each items as item, index}\\n\\t\\t\\t<div class=\\"m-3\\">\\n\\t\\t\\t\\t<div class=\\"row featurette\\">\\n\\t\\t\\t\\t\\t<div class=\\"col-md-5 {index % 2 ? 'order-md-5' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<h2 class=\\"featurette-heading\\">{item.title}</h2>\\n\\t\\t\\t\\t\\t\\t<h4 class=\\"featurette-heading text-muted\\">{item.founder}</h4>\\n\\t\\t\\t\\t\\t\\t<p class=\\"lead h-100 d-inline-block\\">\\n\\t\\t\\t\\t\\t\\t\\t{item.subTitle}\\n\\t\\t\\t\\t\\t\\t\\t<a href=\\"xxx\\" class=\\"text-end\\">scopri di pi\xF9</a>\\n\\t\\t\\t\\t\\t\\t</p>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t<div class=\\"col-md-7  {!(index % 2) ? 'd-flex justify-content-end' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<a\\n\\t\\t\\t\\t\\t\\t\\thref=\\"#\\"\\n\\t\\t\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\t\\t\\ttoggle();\\n\\t\\t\\t\\t\\t\\t\\t\\tactiveIndex = index;\\n\\t\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t\\t>\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} alt=\\"\\" width=\\"500\\" />\\n\\t\\t\\t\\t\\t\\t</a>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t</div>\\n\\t\\t\\t<hr class=\\"featurette-divider\\" />\\n\\t\\t{/each}\\n\\t</div>\\n{/if}\\n<div>\\n\\t<Modal {isOpen} {toggle} fullscreen size=\\"lg\\" scrollable={false} href=\\"#bottom\\">\\n\\t\\t<Carousel {items} bind:activeIndex ride interval={2000}>\\n\\t\\t\\t<div\\n\\t\\t\\t\\tclass=\\"carousel-inner\\"\\n\\t\\t\\t\\tstyle=\\"width: 95%; height: 95%; margin: auto;\\n      border: 3px solid gold;\\n      padding: 10px;\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t{#each items as item, index}\\n\\t\\t\\t\\t\\t<CarouselItem bind:activeIndex itemIndex={index}>\\n\\t\\t\\t\\t\\t\\t<div id=\\"bg\\">\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} class=\\"bg d-block w-100 100vh\\" alt={item.title} />\\n\\t\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t</CarouselItem>\\n\\t\\t\\t\\t{/each}\\n\\t\\t\\t</div>\\n\\t\\t</Carousel>\\n\\t</Modal>\\n</div>\\n<div class=\\"bottom\\" />\\n\\n<style>\\n\\t.bg {\\n\\t\\tposition: fixed;\\n\\t\\ttop: 0;\\n\\t\\tleft: 0;\\n\\n\\t\\t/* Preserve aspet ratio */\\n\\t\\tmin-width: 100%;\\n\\t\\tmin-height: 100%;\\n\\t}\\n\\t@media screen and (max-width: 1024px) {\\n\\t\\t/* Specific to this particular image */\\n\\t\\timg.bg {\\n\\t\\t\\tleft: 50%;\\n\\t\\t\\tmargin-left: -512px; /* 50% */\\n\\t\\t}\\n\\t}\\n</style>\\n"],"names":[],"mappings":"AA+EC,GAAG,cAAC,CAAC,AACJ,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CAGP,SAAS,CAAE,IAAI,CACf,UAAU,CAAE,IAAI,AACjB,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,MAAM,CAAC,AAAC,CAAC,AAEtC,GAAG,GAAG,cAAC,CAAC,AACP,IAAI,CAAE,GAAG,CACT,WAAW,CAAE,MAAM,AACpB,CAAC,AACF,CAAC"}`
+  map: `{"version":3,"file":"projects.svelte","sources":["projects.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { Carousel, CarouselControl, CarouselIndicators, CarouselItem, CarouselCaption, Modal, ModalBody, ModalFooter, ModalHeader, Button, Icon } from 'sveltestrap';\\nlet isOpen = false;\\nconst toggle = () => {\\n    isOpen = !isOpen;\\n    if (document.fullscreenEnabled) {\\n        document.documentElement.requestFullscreen();\\n    }\\n    else {\\n        console.log('Your browser cannot use fullscreen right now');\\n    }\\n};\\nconst items = [\\n    {\\n        url: '/images/pexels-quang-nguyen-vinh-2132250.jpg',\\n        title: 'Paesaggio inesplorato lungo la Via del Ferro',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Gi\xE0 candidato, oscar mancato per poco, Giulia decide di intraprendere un percorso eco-sostenibile per aiutare i propri compaesani e gli anziani del paese.'\\n    },\\n    {\\n        url: '/images/pexels-mike-145685.jpg',\\n        title: 'Lo stagno riporta le rane nel deserto',\\n        founder: 'Scoproche Godo, dal 2011 sul Pian Magadino',\\n        subTitle: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos beatae eligendi ut reiciendis ab voluptas saepe eos quo! Illum, accusantium iste unde optio culpa cum tempore perferendis, perspiciatis ad soluta aspernatur dolorem delectus officiis corrupti velit tenetur excepturi. Perferendis exercitationem dicta tenetur tempora? Odio iure ut earum, voluptas illum suscipit.'\\n    },\\n    {\\n        url: '/images/pexels-bence-kondor-2259917.jpg',\\n        title: 'Casa degli hobbit',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Un luogo creato nel 1976 da Barbara Fenice ad Olivone'\\n    }\\n];\\nlet activeIndex = 0;\\n<\/script>\\n\\n{#if !isOpen}\\n\\t<div class=\\"m-3\\">\\n\\t\\t{#each items as item, index}\\n\\t\\t\\t<div class=\\"m-3\\">\\n\\t\\t\\t\\t<div class=\\"row featurette\\">\\n\\t\\t\\t\\t\\t<div class=\\"col-md-5 {index % 2 ? 'order-md-5' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<h2 class=\\"featurette-heading\\">{item.title}</h2>\\n\\t\\t\\t\\t\\t\\t<h4 class=\\"featurette-heading text-muted\\">{item.founder}</h4>\\n\\t\\t\\t\\t\\t\\t<p class=\\"lead h-100 d-inline-block\\">\\n\\t\\t\\t\\t\\t\\t\\t{item.subTitle}\\n\\t\\t\\t\\t\\t\\t\\t<a href=\\"xxx\\" class=\\"text-end\\">scopri di pi\xF9</a>\\n\\t\\t\\t\\t\\t\\t</p>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t<div\\n\\t\\t\\t\\t\\tclass=\\"col-md-7  {!(index % 2) ? 'd-flex justify-content-end' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<a\\n\\t\\t\\t\\t\\t\\t\\thref=\\"#\\"\\n\\t\\t\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\t\\t\\ttoggle();\\n\\t\\t\\t\\t\\t\\t\\t\\tactiveIndex = index;\\n\\t\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t\\t>\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} alt=\\"\\" width=\\"500\\" />\\n\\t\\t\\t\\t\\t\\t</a>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t</div>\\n\\t\\t{/each}\\n\\t</div>\\n{/if}\\n<div >\\n\\t<Modal {isOpen} {toggle} fullscreen size=\\"lg\\" scrollable={false} href=\\"#bottom\\">\\n\\t\\t<Carousel {items} bind:activeIndex ride interval={2000}>\\n\\t\\t\\t<div\\n\\t\\t\\t\\tclass=\\"carousel-inner\\"\\n\\t\\t\\t\\tstyle=\\"width: 95%; height: 95%; margin: auto;\\n      border: 3px solid gold;\\n      padding: 10px;\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t{#each items as item, index}\\n\\t\\t\\t\\t\\t<CarouselItem bind:activeIndex itemIndex={index}>\\n\\t\\t\\t\\t\\t\\t<div id=\\"bg\\">\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} class=\\"bg d-block w-100 100vh\\" alt={item.title} />\\n\\t\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t</CarouselItem>\\n\\t\\t\\t\\t{/each}\\n\\t\\t\\t</div>\\n\\t\\t</Carousel>\\n\\t</Modal>\\n</div>\\n<div class=\\"bottom\\" />\\n\\n<style>\\n\\t.bg {\\n\\t\\tposition: fixed;\\n\\t\\ttop: 0;\\n\\t\\tleft: 0;\\n\\n\\t\\t/* Preserve aspet ratio */\\n\\t\\tmin-width: 100%;\\n\\t\\tmin-height: 100%;\\n\\t}\\n\\t@media screen and (max-width: 1024px) {\\n\\t\\t/* Specific to this particular image */\\n\\t\\timg.bg {\\n\\t\\t\\tleft: 50%;\\n\\t\\t\\tmargin-left: -512px; /* 50% */\\n\\t\\t}\\n\\t}\\n</style>\\n"],"names":[],"mappings":"AAuFC,GAAG,cAAC,CAAC,AACJ,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CAGP,SAAS,CAAE,IAAI,CACf,UAAU,CAAE,IAAI,AACjB,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,MAAM,CAAC,AAAC,CAAC,AAEtC,GAAG,GAAG,cAAC,CAAC,AACP,IAAI,CAAE,GAAG,CACT,WAAW,CAAE,MAAM,AACpB,CAAC,AACF,CAAC"}`
 };
 var Projects$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isOpen = false;
-  const toggle2 = () => isOpen = !isOpen;
+  const toggle2 = () => {
+    isOpen = !isOpen;
+    if (document.fullscreenEnabled) {
+      document.documentElement.requestFullscreen();
+    } else {
+      console.log("Your browser cannot use fullscreen right now");
+    }
+  };
   const items = [
     {
       url: "/images/pexels-quang-nguyen-vinh-2132250.jpg",
@@ -7662,7 +7673,7 @@ var Projects$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => 
     }
   ];
   let activeIndex = 0;
-  $$result.css.add(css$1);
+  $$result.css.add(css$2);
   let $$settled;
   let $$rendered;
   do {
@@ -7672,10 +7683,9 @@ var Projects$1 = create_ssr_component(($$result, $$props, $$bindings, slots) => 
 						<p class="${"lead h-100 d-inline-block"}">${escape2(item.subTitle)}
 							<a href="${"xxx"}" class="${"text-end"}">scopri di pi\xF9</a>
 						</p></div>
-					<div class="${"col-md-7  " + escape2(!(index2 % 2) ? "d-flex justify-content-end" : "")}"><a href="${"#"}"><img${add_attribute("src", item.url, 0)} alt="${""}" width="${"500"}">
-						</a></div>
-				</div></div>
-			<hr class="${"featurette-divider"}">`)}</div>` : ``}
+					<div class="${"col-md-7  " + escape2(!(index2 % 2) ? "d-flex justify-content-end" : "")}"><a href="${"#"}"><img${add_attribute("src", item.url, 0)} alt="${""}" width="${"500"}"></a>
+					</div></div>
+			</div>`)}</div>` : ``}
 <div>${validate_component(Modal, "Modal").$$render($$result, {
       isOpen,
       toggle: toggle2,
@@ -7727,6 +7737,56 @@ var values$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Values_1$1
 });
+var Host = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<h1>Host xxx</h1>
+<br>Ho saputo che esiste questa associazione che fa permablitz
+<br>Chiedo una consultazione:
+<br>Telefono al numero che trovo sul sito
+<br>chi mi procura il materiale necessario? io non capisco una mazza
+<br>Mi attendo
+<br>che mi risponda un progettista, ma non necessariamente.
+<br>io possa esporre il mio progetto
+<br>che mi dica se \xE8 fattibile
+<br>quanto costa?
+<br>in quanto tempo possa averlo?
+<br>di fissare un appuntamento nel terreno
+<br>che mi chieda dei dati tecnici:
+<br>terreno, planimetrie
+<br>luogo,
+<br>se il terreno \xE8 di propriet\xE0
+<br>vincoli: parenti, confini e altre limitazioni
+<br>quali mezzi ho gi\xE0 a disposizione
+<br>quanto mi costa?
+<br>come funziona?
+<br>ci sar\xE0 una continuit\xE0? chi far\xE0 la manutenzione nel futuro?
+<br>cosa devo fare per avere un permablitz a casa mia?
+<br>posso aiutare l&#39;organizzazione?
+<br>come lavorate?
+<br>Qual \xC8 la qualit\xE0 del materiale che usate?
+<br>Quali sono le vostre competenze/formazioni?
+<br>Perch\xE8 fate parte di quest&#39;organizzazione?
+<br>se qualcuno si fa male durante il Permablitz, pago io?
+<br>magari siete assicurati?
+<br>c\u2019\xE8 una garanzia sul risultato del Permablitz?
+<br>se c\u2019\xE8 un problema, a chi mi posso rivolgere?
+<br>c\u2019\xE8 un assistenza anche dopo qualche tempo?
+<br>servono dei permessi speciali al cantone o al comune?
+<br>chi paga in caso di danni durante o dopo il Permablitz?
+<br>avete un assistenza giuridica?
+<br>che orari di lavoro fate?
+<br>avete particolari bisogni riguardo la cura della persona durante il lavoro?
+<br>io non posso cucinare per 10 persone, come possiamo fare?
+<br>io avrei bisogno di un progetto professionale, come siete organizzati? a chi mi devo rivolgere?
+<br>Devo pagare la vostra trasferta?
+<br>Mi lascerete del materiale una volta finito il lavoro?
+<br>Se ho artigiani che conosco posso inserirli all\u2019interno del progetto?
+<br>`;
+});
+var host = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Host
+});
 var Calendar = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<div class="${"text-center"}"><iframe src="${"https://calendar.google.com/calendar/embed?height=780&wkst=2&bgcolor=%23ffffff&ctz=Europe%2FZurich&src=Y185dnV2aTU3Zjd1cHJwMnExZ2w4YTY5NTBtMEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=Y19xOHVmZzY5amI1MXJmdm4xdGdxYzFhaXU1NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4uY2gjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%238E24AA&color=%23EF6C00&color=%23A79B8E&showTitle=1&showPrint=0&showTabs=1&showTz=0&showNav=1&mode=MONTH&title=Permacultura%20Svizzera%20Italiana"}" style="${"border-width:0"}" width="${"1024"}" height="${"780"}" frameborder="${"0"}" scrolling="${"no"}"></iframe></div>`;
 });
@@ -7735,9 +7795,9 @@ var calendar = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Calendar
 });
-var css = {
+var css$1 = {
   code: ".bg.svelte-5bcepa{position:fixed;top:0;left:0;min-width:100%;min-height:100%}@media screen and (max-width: 1024px){img.bg.svelte-5bcepa{left:50%;margin-left:-512px}}",
-  map: `{"version":3,"file":"projects.svelte","sources":["projects.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { Carousel, CarouselControl, CarouselIndicators, CarouselItem, CarouselCaption, Modal, ModalBody, ModalFooter, ModalHeader, Button, Icon } from 'sveltestrap';\\nlet isOpen = false;\\nconst toggle = () => (isOpen = !isOpen);\\nconst items = [\\n    {\\n        url: '/images/pexels-quang-nguyen-vinh-2132250.jpg',\\n        title: 'Paesaggio inesplorato lungo la Via del Ferro',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Gi\xE0 candidato, oscar mancato per poco, Giulia decide di intraprendere un percorso eco-sostenibile per aiutare i propri compaesani e gli anziani del paese.'\\n    },\\n    {\\n        url: '/images/pexels-mike-145685.jpg',\\n        title: 'Lo stagno riporta le rane nel deserto',\\n        founder: 'Scoproche Godo, dal 2011 sul Pian Magadino',\\n        subTitle: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos beatae eligendi ut reiciendis ab voluptas saepe eos quo! Illum, accusantium iste unde optio culpa cum tempore perferendis, perspiciatis ad soluta aspernatur dolorem delectus officiis corrupti velit tenetur excepturi. Perferendis exercitationem dicta tenetur tempora? Odio iure ut earum, voluptas illum suscipit.'\\n    },\\n    {\\n        url: '/images/pexels-bence-kondor-2259917.jpg',\\n        title: 'Casa degli hobbit',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Un luogo creato nel 1976 da Barbara Fenice ad Olivone'\\n    }\\n];\\nlet activeIndex = 0;\\n<\/script>\\n\\n{#if !isOpen}\\n\\t<div class=\\"m-3\\">\\n\\t\\t<hr class=\\"featurette-divider\\" />\\n\\t\\t{#each items as item, index}\\n\\t\\t\\t<div class=\\"m-3\\">\\n\\t\\t\\t\\t<div class=\\"row featurette\\">\\n\\t\\t\\t\\t\\t<div class=\\"col-md-5 {index % 2 ? 'order-md-5' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<h2 class=\\"featurette-heading\\">{item.title}</h2>\\n\\t\\t\\t\\t\\t\\t<h4 class=\\"featurette-heading text-muted\\">{item.founder}</h4>\\n\\t\\t\\t\\t\\t\\t<p class=\\"lead\\">{item.subTitle}</p>\\n            <div class=\\"text-end\\">\\n              <a href=\\"xxx\\">scopri di pi\xF9</a>\\n            </div>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t<div class=\\"col-md-7\\">\\n\\t\\t\\t\\t\\t\\t<a\\n\\t\\t\\t\\t\\t\\t\\thref=\\"#\\"\\n\\t\\t\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\t\\t\\ttoggle();\\n\\t\\t\\t\\t\\t\\t\\t\\tactiveIndex = index;\\n\\t\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t\\t>\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} alt=\\"\\" width=\\"500\\" />\\n\\t\\t\\t\\t\\t\\t</a>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t</div>\\n\\t\\t\\t<hr class=\\"featurette-divider\\" />\\n\\t\\t{/each}\\n\\t</div>\\n{/if}\\n<div>\\n\\t<Modal {isOpen} {toggle} fullscreen size=\\"lg\\" scrollable={false} href=\\"#bottom\\">\\n\\t\\t<Carousel {items} bind:activeIndex ride interval={2000}>\\n\\t\\t\\t<div\\n\\t\\t\\t\\tclass=\\"carousel-inner\\"\\n\\t\\t\\t\\tstyle=\\"width: 95%; height: 95%; margin: auto;\\n      border: 3px solid gold;\\n      padding: 10px;\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t<CarouselIndicators bind:activeIndex {items} />\\n\\t\\t\\t\\t{#each items as item, index}\\n\\t\\t\\t\\t\\t<CarouselItem bind:activeIndex itemIndex={index}>\\n\\t\\t\\t\\t\\t\\t<div id=\\"bg\\">\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} class=\\"bg d-block w-100 100vh\\" alt={item.title} />\\n\\t\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t\\t<CarouselCaption\\n\\t\\t\\t\\t\\t\\t\\tcaptionHeader={item.title}\\n\\t\\t\\t\\t\\t\\t\\tcaptionText={item.founder}\\n\\t\\t\\t\\t\\t\\t\\tclass=\\"fs-2 text-black bg-secondary\\"\\n\\t\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t\\t</CarouselItem>\\n\\t\\t\\t\\t{/each}\\n\\t\\t\\t\\t<CarouselControl direction=\\"prev\\" directionText=\\"avanti\\" bind:activeIndex {items} />\\n\\t\\t\\t\\t<CarouselControl direction=\\"next\\" bind:activeIndex {items} />\\n\\t\\t\\t</div>\\n\\t\\t</Carousel>\\n\\t</Modal>\\n</div>\\n<div class=\\"bottom\\" />\\n\\n<style>\\n\\t.bg {\\n\\t\\tposition: fixed;\\n\\t\\ttop: 0;\\n\\t\\tleft: 0;\\n\\n\\t\\t/* Preserve aspet ratio */\\n\\t\\tmin-width: 100%;\\n\\t\\tmin-height: 100%;\\n\\t}\\n\\t@media screen and (max-width: 1024px) {\\n\\t\\t/* Specific to this particular image */\\n\\t\\timg.bg {\\n\\t\\t\\tleft: 50%;\\n\\t\\t\\tmargin-left: -512px; /* 50% */\\n\\t\\t}\\n\\t}\\n</style>\\n"],"names":[],"mappings":"AAwFC,GAAG,cAAC,CAAC,AACJ,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CAGP,SAAS,CAAE,IAAI,CACf,UAAU,CAAE,IAAI,AACjB,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,MAAM,CAAC,AAAC,CAAC,AAEtC,GAAG,GAAG,cAAC,CAAC,AACP,IAAI,CAAE,GAAG,CACT,WAAW,CAAE,MAAM,AACpB,CAAC,AACF,CAAC"}`
+  map: `{"version":3,"file":"projects.svelte","sources":["projects.svelte"],"sourcesContent":["<script lang=\\"ts\\">import { Carousel, CarouselControl, CarouselIndicators, CarouselItem, CarouselCaption, Modal, ModalBody, ModalFooter, ModalHeader, Button, Icon } from 'sveltestrap';\\nlet isOpen = false;\\nconst toggle = () => (isOpen = !isOpen);\\nconst items = [\\n    {\\n        url: '/images/pexels-quang-nguyen-vinh-2132250.jpg',\\n        title: 'Paesaggio inesplorato lungo la Via del Ferro',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Gi\xE0 candidato, oscar mancato per poco, Giulia decide di intraprendere un percorso eco-sostenibile per aiutare i propri compaesani e gli anziani del paese.'\\n    },\\n    {\\n        url: '/images/pexels-mike-145685.jpg',\\n        title: 'Lo stagno riporta le rane nel deserto',\\n        founder: 'Scoproche Godo, dal 2011 sul Pian Magadino',\\n        subTitle: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos beatae eligendi ut reiciendis ab voluptas saepe eos quo! Illum, accusantium iste unde optio culpa cum tempore perferendis, perspiciatis ad soluta aspernatur dolorem delectus officiis corrupti velit tenetur excepturi. Perferendis exercitationem dicta tenetur tempora? Odio iure ut earum, voluptas illum suscipit.'\\n    },\\n    {\\n        url: '/images/pexels-bence-kondor-2259917.jpg',\\n        title: 'Casa degli hobbit',\\n        founder: 'Giulia Valsani, dal 1997 in Val Morobbia',\\n        subTitle: 'Un luogo creato nel 1976 da Barbara Fenice ad Olivone'\\n    }\\n];\\nlet activeIndex = 0;\\n<\/script>\\n\\n{#if !isOpen}\\n\\t<div class=\\"m-3\\">\\n\\t\\t<hr class=\\"featurette-divider\\" />\\n\\t\\t{#each items as item, index}\\n\\t\\t\\t<div class=\\"m-3\\">\\n\\t\\t\\t\\t<div class=\\"row featurette\\">\\n\\t\\t\\t\\t\\t<div class=\\"col-md-5 {index % 2 ? 'order-md-5' : ''}\\">\\n\\t\\t\\t\\t\\t\\t<h2 class=\\"featurette-heading\\">{item.title}</h2>\\n\\t\\t\\t\\t\\t\\t<h4 class=\\"featurette-heading text-muted\\">{item.founder}</h4>\\n\\t\\t\\t\\t\\t\\t<p class=\\"lead\\">{item.subTitle}</p>\\n            <div class=\\"text-end\\">\\n              <a href=\\"xxx\\">scopri di pi\xF9</a>\\n            </div>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t<div class=\\"col-md-7\\">\\n\\t\\t\\t\\t\\t\\t<!-- svelte-ignore a11y-invalid-attribute -->\\n\\t\\t\\t\\t\\t\\t<a\\n\\t\\t\\t\\t\\t\\t\\thref=\\"#\\"\\n\\t\\t\\t\\t\\t\\t\\ton:click={() => {\\n\\t\\t\\t\\t\\t\\t\\t\\ttoggle();\\n\\t\\t\\t\\t\\t\\t\\t\\tactiveIndex = index;\\n\\t\\t\\t\\t\\t\\t\\t}}\\n\\t\\t\\t\\t\\t\\t>\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} alt=\\"\\" width=\\"500\\" />\\n\\t\\t\\t\\t\\t\\t</a>\\n\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t</div>\\n\\t\\t\\t</div>\\n\\t\\t\\t<hr class=\\"featurette-divider\\" />\\n\\t\\t{/each}\\n\\t</div>\\n{/if}\\n<div>\\n\\t<Modal {isOpen} {toggle} fullscreen size=\\"lg\\" scrollable={false} href=\\"#bottom\\">\\n\\t\\t<Carousel {items} bind:activeIndex ride interval={2000}>\\n\\t\\t\\t<div\\n\\t\\t\\t\\tclass=\\"carousel-inner\\"\\n\\t\\t\\t\\tstyle=\\"width: 95%; height: 95%; margin: auto;\\n      border: 3px solid gold;\\n      padding: 10px;\\"\\n\\t\\t\\t>\\n\\t\\t\\t\\t<CarouselIndicators bind:activeIndex {items} />\\n\\t\\t\\t\\t{#each items as item, index}\\n\\t\\t\\t\\t\\t<CarouselItem bind:activeIndex itemIndex={index}>\\n\\t\\t\\t\\t\\t\\t<div id=\\"bg\\">\\n\\t\\t\\t\\t\\t\\t\\t<img src={item.url} class=\\"bg d-block w-100 100vh\\" alt={item.title} />\\n\\t\\t\\t\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t\\t<CarouselCaption\\n\\t\\t\\t\\t\\t\\t\\tcaptionHeader={item.title}\\n\\t\\t\\t\\t\\t\\t\\tcaptionText={item.founder}\\n\\t\\t\\t\\t\\t\\t\\tclass=\\"fs-2 text-black bg-secondary\\"\\n\\t\\t\\t\\t\\t\\t/>\\n\\t\\t\\t\\t\\t</CarouselItem>\\n\\t\\t\\t\\t{/each}\\n\\t\\t\\t\\t<CarouselControl direction=\\"prev\\" directionText=\\"avanti\\" bind:activeIndex {items} />\\n\\t\\t\\t\\t<CarouselControl direction=\\"next\\" bind:activeIndex {items} />\\n\\t\\t\\t</div>\\n\\t\\t</Carousel>\\n\\t</Modal>\\n</div>\\n<div class=\\"bottom\\" />\\n\\n<style>\\n\\t.bg {\\n\\t\\tposition: fixed;\\n\\t\\ttop: 0;\\n\\t\\tleft: 0;\\n\\n\\t\\t/* Preserve aspet ratio */\\n\\t\\tmin-width: 100%;\\n\\t\\tmin-height: 100%;\\n\\t}\\n\\t@media screen and (max-width: 1024px) {\\n\\t\\t/* Specific to this particular image */\\n\\t\\timg.bg {\\n\\t\\t\\tleft: 50%;\\n\\t\\t\\tmargin-left: -512px; /* 50% */\\n\\t\\t}\\n\\t}\\n</style>\\n"],"names":[],"mappings":"AAyFC,GAAG,cAAC,CAAC,AACJ,QAAQ,CAAE,KAAK,CACf,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CAGP,SAAS,CAAE,IAAI,CACf,UAAU,CAAE,IAAI,AACjB,CAAC,AACD,OAAO,MAAM,CAAC,GAAG,CAAC,YAAY,MAAM,CAAC,AAAC,CAAC,AAEtC,GAAG,GAAG,cAAC,CAAC,AACP,IAAI,CAAE,GAAG,CACT,WAAW,CAAE,MAAM,AACpB,CAAC,AACF,CAAC"}`
 };
 var Projects = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let isOpen = false;
@@ -7763,7 +7823,7 @@ var Projects = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     }
   ];
   let activeIndex = 0;
-  $$result.css.add(css);
+  $$result.css.add(css$1);
   let $$settled;
   let $$rendered;
   do {
@@ -7774,7 +7834,8 @@ var Projects = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 						<p class="${"lead"}">${escape2(item.subTitle)}</p>
             <div class="${"text-end"}"><a href="${"xxx"}">scopri di pi\xF9</a>
             </div></div>
-					<div class="${"col-md-7"}"><a href="${"#"}"><img${add_attribute("src", item.url, 0)} alt="${""}" width="${"500"}">
+					<div class="${"col-md-7"}">
+						<a href="${"#"}"><img${add_attribute("src", item.url, 0)} alt="${""}" width="${"500"}">
 						</a></div>
 				</div></div>
 			<hr class="${"featurette-divider"}">`)}</div>` : ``}
@@ -7852,6 +7913,75 @@ var values = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Values_1
+});
+var css = {
+  code: "img.svelte-1sva6xy{width:300px}",
+  map: `{"version":3,"file":"what.svelte","sources":["what.svelte"],"sourcesContent":["<script>\\n\\timport { Figure } from 'sveltestrap';\\n<\/script>\\n\\n<h2>Definizione</h2>\\n<p>\\n\\tSi tratta di un approccio alla progettazione basato sul collegamento di elementi e persone\\n\\tattraverso varie discipline e strategie che lavorano in collaborazione con la natura.\\n</p>\\n<p>\\n\\tL'obiettivo \xE8 creare ecosistemi e insediamenti umani e agricoli ricchi di biodiversit\xE0,\\n\\tstabilibili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo simile a come fanno\\n\\tgli ecosistemi naturali, quali ad esempio i boschi. Rendendoli quindi ecologicamente,\\n\\teconomicamente e socialmente sostenibili.\\n</p>\\n<p>\\n\\tQuindi la Permacultura non \xE8 una disciplina o una tecnica da usare esclusivamente nell'orto ;)\\n</p>\\n\\n<div class=\\"row p-3\\">\\n\\t<div class=\\"row \\">\\n\\t\\t<h2 class=\\"\\">La Prima Direttiva</h2>\\n\\t\\t<h5 class=\\" text-muted\\">Assumersi la propria responsabilit\xE0.</h5>\\n\\t\\t<p class=\\"lead\\">\\n\\t\\t\\tChe detto in parole pi\xF9 semplici questo significa:\\n\\t\\t\\t<span class=\\"text-muted\\">non lamentarsi ma dare il buon esempio</span>\\n\\t\\t</p>\\n\\t</div>\\n\\t<div class=\\"row border-end col-md-6\\">\\n\\t\\t<div class=\\"col-md-5\\">\\n\\t\\t\\t<h2 class=\\"\\">Valori</h2>\\n\\t\\t\\t<h5 class=\\" text-muted\\">prendersi cura</h5>\\n\\t\\t\\t<p class=\\"lead\\">della terra</p>\\n\\t\\t\\t<p class=\\"lead\\">delle persone</p>\\n\\t\\t\\t<h5 class=\\"text-muted\\">condivisione del surplus</h5>\\n\\t\\t</div>\\n\\t\\t<div class=\\"col-md-1\\">\\n\\t\\t\\t<Figure>\\n\\t\\t\\t\\t<img src=\\"/images/values.webp\\" alt=\\"\\" />\\n\\t\\t\\t\\t<caption>I valori della Permacultura</caption>\\n\\t\\t\\t</Figure>\\n\\t\\t</div>\\n\\t</div>\\n\\t<div class=\\"row border-end col-md-6 p-3\\">\\n\\t\\t<div class=\\"col-md-5\\">\\n\\t\\t\\t<h2 class=\\"\\">Principi</h2>\\n\\t\\t\\t<h4 class=\\" text-muted\\">12 punti</h4>\\n\\t\\t\\t<p class=\\"lead\\">di David Holmgren</p>\\n\\t\\t\\t<a target=\\"_blank\\" href=\\"https://it.wikipedia.org/wiki/Permacultura#Principi\\">\\n\\t\\t\\t\\tper saperne di pi\xF9\\n\\t\\t\\t</a>\\n\\t\\t</div>\\n\\t\\t<div class=\\"col-md-1\\">\\n\\t\\t\\t<Figure>\\n\\t\\t\\t\\t<img src=\\"/images/principles.webp\\" alt=\\"\\" />\\n\\t\\t\\t\\t<caption>12 principi</caption>\\n\\t\\t\\t</Figure>\\n\\t\\t</div>\\n\\t</div>\\n</div>\\n\\n<div>\\n\\t<h2>Applicazioni</h2>\\n\\t<p>Questo appreccio si presta ad esempio per essere applicato:</p>\\n\\t<ul>\\n\\t\\t<li>alla coltivazione di piante</li>\\n\\t\\t<li>l'utilizzo agroforestale del terreno</li>\\n\\t\\t<li>all'accessibilit\xE0 al pubblico come giardino aperto ai visitatori</li>\\n\\t\\t<li>e/o ad un orto terapeutico</li>\\n\\t\\t<li>alla comunicazione</li>\\n\\t\\t<li>per allevare animali</li>\\n\\t</ul>\\n\\t<p>\\n\\t\\tApplichiamo i principi base della Permacultura proprio per progettare i paesaggi in modo consapevole,\\n\\t\\timitando le relazioni e i modelli gi\xE0 presenti in natura (progettazione sistemica).\\n\\t\\tImpariamo dai sistemi naturali, frutto di milioni di anni di evoluzione, allo scopo\\n\\t\\tdi produrre cibo, materiale ed energia per soddisfare i bisogni locali.\\n\\t</p>\\n\\t<p>\\n\\t\\tFondamentale \xE9 poi riuscire a trasformarci da consumatori\\n\\t\\tdipendenti dalla grande industria in cittadini responsabili, consapevoli e produttivi.\\n\\t</p>\\n\\t<p>\\n\\t\\tLa Permacultura \xE8 stata sviluppata a partire dagli anni settanta, dagli australiani Bill\\n\\t\\tMollison e David Holmgren. Tocca varie aree, come l'agricoltura, l'architettura, la biologia, la\\n\\t\\tselvicoltura e la zootecnica. Come pure la comunicazione non violenta, la sociocrazia,\\n\\t\\tl'educazione, ecc.\\n\\t</p>\\n</div>\\n\\n<style>\\n\\timg {\\n\\t\\twidth: 300px;\\n\\t}\\n</style>\\n"],"names":[],"mappings":"AA2FC,GAAG,eAAC,CAAC,AACJ,KAAK,CAAE,KAAK,AACb,CAAC"}`
+};
+var What = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  $$result.css.add(css);
+  return `<h2>Definizione</h2>
+<p>Si tratta di un approccio alla progettazione basato sul collegamento di elementi e persone
+	attraverso varie discipline e strategie che lavorano in collaborazione con la natura.
+</p>
+<p>L&#39;obiettivo \xE8 creare ecosistemi e insediamenti umani e agricoli ricchi di biodiversit\xE0,
+	stabilibili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo simile a come fanno
+	gli ecosistemi naturali, quali ad esempio i boschi. Rendendoli quindi ecologicamente,
+	economicamente e socialmente sostenibili.
+</p>
+<p>Quindi la Permacultura non \xE8 una disciplina o una tecnica da usare esclusivamente nell&#39;orto ;)
+</p>
+
+<div class="${"row p-3"}"><div class="${"row "}"><h2 class="${""}">La Prima Direttiva</h2>
+		<h5 class="${" text-muted"}">Assumersi la propria responsabilit\xE0.</h5>
+		<p class="${"lead"}">Che detto in parole pi\xF9 semplici questo significa:
+			<span class="${"text-muted"}">non lamentarsi ma dare il buon esempio</span></p></div>
+	<div class="${"row border-end col-md-6"}"><div class="${"col-md-5"}"><h2 class="${""}">Valori</h2>
+			<h5 class="${" text-muted"}">prendersi cura</h5>
+			<p class="${"lead"}">della terra</p>
+			<p class="${"lead"}">delle persone</p>
+			<h5 class="${"text-muted"}">condivisione del surplus</h5></div>
+		<div class="${"col-md-1"}">${validate_component(Figure, "Figure").$$render($$result, {}, {}, {
+    default: () => `<img src="${"/images/values.webp"}" alt="${""}" class="${"svelte-1sva6xy"}">
+				<caption>I valori della Permacultura</caption>`
+  })}</div></div>
+	<div class="${"row border-end col-md-6 p-3"}"><div class="${"col-md-5"}"><h2 class="${""}">Principi</h2>
+			<h4 class="${" text-muted"}">12 punti</h4>
+			<p class="${"lead"}">di David Holmgren</p>
+			<a target="${"_blank"}" href="${"https://it.wikipedia.org/wiki/Permacultura#Principi"}">per saperne di pi\xF9
+			</a></div>
+		<div class="${"col-md-1"}">${validate_component(Figure, "Figure").$$render($$result, {}, {}, {
+    default: () => `<img src="${"/images/principles.webp"}" alt="${""}" class="${"svelte-1sva6xy"}">
+				<caption>12 principi</caption>`
+  })}</div></div></div>
+
+<div><h2>Applicazioni</h2>
+	<p>Questo appreccio si presta ad esempio per essere applicato:</p>
+	<ul><li>alla coltivazione di piante</li>
+		<li>l&#39;utilizzo agroforestale del terreno</li>
+		<li>all&#39;accessibilit\xE0 al pubblico come giardino aperto ai visitatori</li>
+		<li>e/o ad un orto terapeutico</li>
+		<li>alla comunicazione</li>
+		<li>per allevare animali</li></ul>
+	<p>Applichiamo i principi base della Permacultura proprio per progettare i paesaggi in modo consapevole,
+		imitando le relazioni e i modelli gi\xE0 presenti in natura (progettazione sistemica).
+		Impariamo dai sistemi naturali, frutto di milioni di anni di evoluzione, allo scopo
+		di produrre cibo, materiale ed energia per soddisfare i bisogni locali.
+	</p>
+	<p>Fondamentale \xE9 poi riuscire a trasformarci da consumatori
+		dipendenti dalla grande industria in cittadini responsabili, consapevoli e produttivi.
+	</p>
+	<p>La Permacultura \xE8 stata sviluppata a partire dagli anni settanta, dagli australiani Bill
+		Mollison e David Holmgren. Tocca varie aree, come l&#39;agricoltura, l&#39;architettura, la biologia, la
+		selvicoltura e la zootecnica. Come pure la comunicazione non violenta, la sociocrazia,
+		l&#39;educazione, ecc.
+	</p>
+</div>`;
+});
+var what = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": What
 });
 
 // .svelte-kit/netlify/entry.js
