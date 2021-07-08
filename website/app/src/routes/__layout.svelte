@@ -8,9 +8,17 @@
 	<title>Permacultura Svizzera Italiana</title>
 </svelte:head>
 
-<Navbar />
-<div class="m-3">
-  <slot />
-</div>
+<header class="sticky-md-top pe-5">
+  <Navbar />
+</header>
 
-<!-- <footer>copyleft</footer> -->
+<main class=" fixed-center container p-5">
+    <slot />
+</main>
+
+<footer class="footer mt-auto fixed-bottom py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">
+      <i>Copyleft — Permacultura Svizzera Italiana — all rights reversed.</i>
+  </div>
+</footer>

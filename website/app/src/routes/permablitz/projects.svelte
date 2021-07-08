@@ -14,7 +14,14 @@
 	} from 'sveltestrap';
 
 	let isOpen = false;
-	const toggle = () => (isOpen = !isOpen);
+	const toggle = () => {
+		isOpen = !isOpen
+		if (document.fullscreenEnabled) {
+			document.documentElement.requestFullscreen();
+		} else {
+			console.log('Your browser cannot use fullscreen right now');
+		}
+	};
 
 	const items = [
 		{
@@ -54,7 +61,8 @@
 							<a href="xxx" class="text-end">scopri di più</a>
 						</p>
 					</div>
-					<div class="col-md-7  {!(index % 2) ? 'd-flex justify-content-end' : ''}">
+					<div
+					class="col-md-7  {!(index % 2) ? 'd-flex justify-content-end' : ''}">
 						<a
 							href="#"
 							on:click={() => {
@@ -67,11 +75,10 @@
 					</div>
 				</div>
 			</div>
-			<hr class="featurette-divider" />
 		{/each}
 	</div>
 {/if}
-<div>
+<div >
 	<Modal {isOpen} {toggle} fullscreen size="lg" scrollable={false} href="#bottom">
 		<Carousel {items} bind:activeIndex ride interval={2000}>
 			<div

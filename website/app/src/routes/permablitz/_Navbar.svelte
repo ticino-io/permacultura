@@ -12,6 +12,7 @@
 		DropdownMenu,
 		DropdownItem
 	} from 'sveltestrap';
+	import { page } from '$app/stores';
 
 	let isOpen = false;
 
@@ -26,42 +27,42 @@
 			console.log('Your browser cannot use fullscreen right now');
 		}
 	}
-
 </script>
 
 <Navbar color="light" light expand="md" class="border-bottom">
 	<NavbarBrand href="/">
 		Permacultura <br /><spam class="text-muted">Svizzera Italiana</spam>
 	</NavbarBrand>
+	<NavbarBrand href="/permablitz">
+		Permablitz
+	</NavbarBrand>
 	<NavbarToggler on:click={() => (isOpen = !isOpen)} />
 
 	<Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
 		<Nav class="ms-auto" navbar>
 			<NavItem>
-				<NavLink href="/what">Cos'è<br />la Permacultura</NavLink>
+				<NavLink href="/permablitz/how">Come funziona</NavLink>
 			</NavItem>
 			<NavItem>
-				<NavLink href="/calendar">Calendario</NavLink>
+				<NavLink href="/permablitz/calendar">I nostri eventi</NavLink>
+			</NavItem>
+			<NavItem>
+				<NavLink href="/permablitz/projects">Esempi</NavLink>
 			</NavItem>
 			<Dropdown nav inNavbar>
-				<DropdownToggle nav caret>Chi siamo</DropdownToggle>
+				<DropdownToggle nav caret>Persone</DropdownToggle>
 				<DropdownMenu>
-					<DropdownItem href="/people">I volontari</DropdownItem>
-					<DropdownItem href="/goals">Obiettivi</DropdownItem>
-					<DropdownItem href="/whattheysay">Dicono di noi</DropdownItem>
-					<DropdownItem href="/thankyou">Ringraziamenti</DropdownItem>
+					<DropdownItem href="/permablitz/roles">I ruoli dei Permablitz</DropdownItem>
 					<DropdownItem divider />
-					<DropdownItem>Entra</DropdownItem>
+					<DropdownItem href="/permablitz/pdcs">Progettisti</DropdownItem>
+					<DropdownItem href="/permablitz/wwoofers">Collaboratori</DropdownItem>
+					<DropdownItem href="/permablitz/hosts">Host</DropdownItem>
+					<DropdownItem href="/permablitz/craftwomen">Artigiani</DropdownItem>
+					<DropdownItem href="/permablitz/shops">Negozi e Fornitori</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
 			<NavItem>
-				<NavLink target="_blank" href="http://scuolapermacultura.ch">Scuola</NavLink>
-			</NavItem>
-			<NavItem>
-				<NavLink href="/permablitz">Permablitz</NavLink>
-			</NavItem>
-			<NavItem>
-				<NavLink href="/board">Bacheca</NavLink>
+				<NavLink href="/permablitz/tools" active>Gli Attrezzi</NavLink>
 			</NavItem>
 			<Dropdown nav inNavbar>
 				<DropdownToggle nav caret>Profilo</DropdownToggle>

@@ -56,6 +56,7 @@
             </div>
 					</div>
 					<div class="col-md-7">
+						<!-- svelte-ignore a11y-invalid-attribute -->
 						<a
 							href="#"
 							on:click={() => {
