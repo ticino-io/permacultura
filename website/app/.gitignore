@@ -3,4 +3,4 @@ node_modules
 /.svelte-kit
 /package
 .firebase
-build
+/build
