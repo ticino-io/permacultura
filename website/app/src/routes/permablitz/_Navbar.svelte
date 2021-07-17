@@ -44,10 +44,13 @@
 				<NavLink href="/permablitz/how">Come funziona</NavLink>
 			</NavItem>
 			<NavItem>
-				<NavLink href="/permablitz/calendar">I nostri eventi</NavLink>
+				<NavLink href="/permablitz/calendar">Calendario</NavLink>
 			</NavItem>
 			<NavItem>
-				<NavLink href="/permablitz/projects">Esempi</NavLink>
+				<NavLink href="/permablitz/projects">Progetti</NavLink>
+			</NavItem>
+			<NavItem>
+				<NavLink href="/permablitz/permablitz">Permablitz</NavLink>
 			</NavItem>
 			<Dropdown nav inNavbar>
 				<DropdownToggle nav caret>Persone</DropdownToggle>

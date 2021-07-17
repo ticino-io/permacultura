@@ -41,7 +41,7 @@
 				<NavLink href="/what">Cos'è<br />la Permacultura</NavLink>
 			</NavItem>
 			<NavItem>
-				<NavLink href="/calendar">Calendario</NavLink>
+				<NavLink href="/calendar">Eventi</NavLink>
 			</NavItem>
 			<Dropdown nav inNavbar>
 				<DropdownToggle nav caret>Chi siamo</DropdownToggle>

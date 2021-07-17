@@ -61,7 +61,7 @@
 
 <div>
 	<h2>Applicazioni</h2>
-	<p>Questo appreccio si presta ad esempio per essere applicato:</p>
+	<p>Questo approccio si presta ad esempio per essere applicato:</p>
 	<ul>
 		<li>alla coltivazione di piante</li>
 		<li>l'utilizzo agroforestale del terreno</li>
