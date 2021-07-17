@@ -1,31 +1,49 @@
 <script>
-	import { Figure } from 'sveltestrap';
+	import { Figure, Nav, NavLink } from 'sveltestrap';
 </script>
-<img src="/images/garden1.webp" class="w-100" alt="">
-<h2>Definizione</h2>
-<p>
-	La Permacultura è un approccio alla progettazione basato sul collegamento di elementi e persone
-	attraverso varie discipline e strategie che collaborano con la natura.
-</p>
-<p>
-	L'obiettivo che si pone è quello di creare ecosistemi e insediamenti umani e agricoli ricchi di biodiversità,
-	stabili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo simile a come fanno
-	gli ecosistemi naturali, quali ad esempio i boschi. Rendendoli quindi ecologicamente,
-	economicamente e socialmente sostenibili.
-</p>
-<p>
-	Quindi la Permacultura non è una disciplina o una tecnica da usare esclusivamente nell'orto ;)
-</p>
 
-<div class="row p-3">
-	<div class="row ">
-		<h2 class="">La Prima Direttiva</h2>
-		<h5 class=" text-muted">Assumersi la propria responsabilità.</h5>
-		<p class="lead">
-			Che detto in parole più semplici questo significa:
-			<span class="text-muted">non lamentarsi ma dare il buon esempio</span>
-		</p>
+<div class="row ">
+	<h2 class="">La Prima Direttiva</h2>
+	<h5 class=" text-muted">Assumersi la propria responsabilità.</h5>
+	<p class="lead">
+		In parole più semplici:
+		<span class="text-muted">non lamentarsi ma dare il buon esempio</span>
+	</p>
+</div>
+
+<Nav class="d-flex justify-content-end">
+	<NavLink href="#v-and-p">Valori</NavLink>
+	<NavLink href="#v-and-p">Principi</NavLink>
+	<NavLink href="#applications">Applicazioni</NavLink>
+</Nav>
+<div class="">
+	<div class="row featurette border-top">
+		<div class="col-md-5 mt-3">
+			<h2 class="featurette-heading">Definizione</h2>
+			<p>
+				La Permacultura è un approccio alla progettazione basato sul collegamento di elementi e
+				persone attraverso varie discipline e strategie che collaborano con la natura.
+			</p>
+			<p>
+				L'obiettivo che si pone è quello di creare ecosistemi e insediamenti umani e agricoli ricchi
+				di biodiversità, stabili e resilienti (ossia capaci di adattarsi ai cambiamenti), in modo
+				simile a come fanno gli ecosistemi naturali, quali ad esempio i boschi. Rendendoli quindi
+				ecologicamente, economicamente e socialmente sostenibili.
+			</p>
+			<p class="text-muted">
+				Quindi la Permacultura non è una disciplina o una tecnica da usare esclusivamente nell'orto
+				;)
+			</p>
+		</div>
+		<div class="col-md-7 mt-5">
+			<img src="/images/garden1.webp" class="w-100 h-100" alt="" />
+		</div>
 	</div>
+</div>
+
+<span id="v-and-p" class="mt-5" />
+
+<div class="row pt-3">
 	<div class="row border-end col-md-6">
 		<div class="col-md-5">
 			<h2 class="">Valori</h2>
@@ -59,7 +77,7 @@
 	</div>
 </div>
 
-<div>
+<div id="applications">
 	<h2>Applicazioni</h2>
 	<p>Questo approccio si presta ad esempio per essere applicato:</p>
 	<ul>
@@ -71,14 +89,14 @@
 		<li>per allevare animali</li>
 	</ul>
 	<p>
-		Applichiamo i principi base della Permacultura proprio per progettare i paesaggi in modo consapevole,
-		imitando le relazioni e i modelli già presenti in natura (progettazione sistemica).
-		Impariamo dai sistemi naturali, frutto di milioni di anni di evoluzione, allo scopo
-		di produrre cibo, materiale ed energia per soddisfare i bisogni locali.
+		Applichiamo i principi base della Permacultura proprio per progettare i paesaggi in modo
+		consapevole, imitando le relazioni e i modelli già presenti in natura (progettazione sistemica).
+		Impariamo dai sistemi naturali, frutto di milioni di anni di evoluzione, allo scopo di produrre
+		cibo, materiale ed energia per soddisfare i bisogni locali.
 	</p>
 	<p>
-		Fondamentale é poi riuscire a trasformarci da consumatori
-		dipendenti dalla grande industria in cittadini responsabili, consapevoli e produttivi.
+		Fondamentale é poi riuscire a trasformarci da consumatori dipendenti dalla grande industria in
+		cittadini responsabili, consapevoli e produttivi.
 	</p>
 	<p>
 		La Permacultura è stata sviluppata a partire dagli anni settanta, dagli australiani Bill
@@ -91,5 +109,10 @@
 <style>
 	img {
 		width: 300px;
+	}
+	#v-and-p {
+		scroll-margin-top: 100px;
+		padding-top: 50px;
+		margin-top: -50px;
 	}
 </style>

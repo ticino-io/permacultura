@@ -27,12 +27,12 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+# build & deploy to google
 
 Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
 
-```bash
-npm run build
-```
+  $ cd /website/app
+  $ docker-compose run app sh -c "npm run build"
+  $ firebase deploy --only hosting
 
 > You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
