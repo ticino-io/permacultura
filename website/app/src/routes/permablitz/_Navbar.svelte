@@ -50,7 +50,7 @@
 				<NavLink href="/permablitz/projects">Progetti</NavLink>
 			</NavItem>
 			<NavItem>
-				<NavLink href="/permablitz/permablitz">Permablitz</NavLink>
+				<NavLink href="/permablitz/list">Permablitz</NavLink>
 			</NavItem>
 			<Dropdown nav inNavbar>
 				<DropdownToggle nav caret>Persone</DropdownToggle>

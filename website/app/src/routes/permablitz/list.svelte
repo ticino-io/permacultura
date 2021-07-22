@@ -60,9 +60,9 @@
 							{item.subTitle}
 							<a href="xxx" class="text-end">scopri di più</a>
               <br>
-              <a href="xxx" class="text-end">voglio progettare</a>
+              <a href="/permablitz/newpdc" class="text-end">voglio progettare</a>
               <br>
-              <a href="xxx" class="text-end">voglio collaborare</a>
+              <a href="/permablitz/newWwoofer" class="text-end">voglio collaborare</a>
 						</p>
             <p>
             </p>

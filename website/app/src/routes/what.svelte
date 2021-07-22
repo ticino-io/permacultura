@@ -112,7 +112,5 @@
 	}
 	#v-and-p {
 		scroll-margin-top: 100px;
-		padding-top: 50px;
-		margin-top: -50px;
 	}
 </style>

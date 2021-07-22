@@ -12,7 +12,7 @@
   <Navbar />
 </header>
 
-<main class=" fixed-center container px-5 pb-5">
+<main class=" fixed-center container p-5">
     <slot />
 </main>
 
